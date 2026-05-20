@@ -121,10 +121,12 @@ GROQ_API_KEY=your_groq_key
 # 📸 Screenshots
 
 ## Home Page
-<img width="934" height="484" alt="image" src="https://github.com/user-attachments/assets/7b9ed56f-1df3-41fd-add3-bada96f9759e" />
+<img width="950" height="439" alt="image" src="https://github.com/user-attachments/assets/c0df5ce5-8522-4ad0-9cab-a2224dd70e8e" />
+
 
 
 ## Itinerary Results
+<img width="946" height="442" alt="image" src="https://github.com/user-attachments/assets/29073720-2679-41ce-9c9f-eccddc1b5fc7" />
 
 
 ---
