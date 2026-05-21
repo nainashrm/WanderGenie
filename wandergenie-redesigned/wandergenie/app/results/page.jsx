@@ -6,14 +6,15 @@ import Footer from '@/components/Footer'
 import ItineraryCard from '@/components/ItineraryCard'
 import PackingList from '@/components/PackingList'
 import WeatherCard from '@/components/WeatherCard'
+import ExportButton from '@/components/ExportButton'
 import {
-  MapPin, DollarSign, Calendar, ArrowLeft, Download,
+  MapPin, DollarSign, Calendar, ArrowLeft,
   Map, Backpack, Umbrella, Share2
 } from 'lucide-react'
 
 const TABS = [
   { id: 'itinerary', label: 'Itinerary', icon: Map },
-  { id: 'packing', label: 'Packing List', icon: Backpack },
+  { id: 'packing',   label: 'Packing List', icon: Backpack },
 ]
 
 function TripMetaBar({ formData }) {
@@ -29,9 +30,7 @@ function TripMetaBar({ formData }) {
             <div className="text-sm font-semibold text-[#1a2e1a] capitalize font-body">{formData?.destination}</div>
           </div>
         </div>
-
         <div className="h-8 w-px bg-gray-100 hidden sm:block" />
-
         <div className="flex items-center gap-2">
           <Calendar className="w-4 h-4 text-[#4a7c59]" strokeWidth={1.8} />
           <div>
@@ -39,9 +38,7 @@ function TripMetaBar({ formData }) {
             <div className="text-sm font-semibold text-[#1a2e1a] font-body">{formData?.duration} days</div>
           </div>
         </div>
-
         <div className="h-8 w-px bg-gray-100 hidden sm:block" />
-
         <div className="flex items-center gap-2">
           <DollarSign className="w-4 h-4 text-[#e07b39]" strokeWidth={1.8} />
           <div>
@@ -51,9 +48,7 @@ function TripMetaBar({ formData }) {
             </div>
           </div>
         </div>
-
         <div className="h-8 w-px bg-gray-100 hidden sm:block" />
-
         <div className="flex flex-wrap gap-1.5 flex-1">
           {formData?.interests?.map((tag) => (
             <span key={tag} className="text-[10px] px-2.5 py-1 rounded-full bg-[#f0f7f2] border border-[#4a7c59]/20 text-[#4a7c59] font-mono capitalize">
@@ -87,28 +82,37 @@ function EmptyState({ router }) {
 
 export default function ResultsPage() {
   const router = useRouter()
-  const [result, setResult] = useState(null)
+  const [result, setResult]     = useState(null)
   const [formData, setFormData] = useState(null)
   const [activeTab, setActiveTab] = useState('itinerary')
 
   useEffect(() => {
     const savedResult = sessionStorage.getItem('wandergenie_result')
-    const savedForm = sessionStorage.getItem('wandergenie_form')
+    const savedForm   = sessionStorage.getItem('wandergenie_form')
     if (savedResult) setResult(JSON.parse(savedResult))
-    if (savedForm) setFormData(JSON.parse(savedForm))
+    if (savedForm)   setFormData(JSON.parse(savedForm))
   }, [])
 
   if (!result) return <EmptyState router={router} />
 
   const { itinerary, packing_list, weather } = result
 
+  const handleShare = async () => {
+    const text = `Check out my AI-generated ${formData?.duration}-day trip to ${formData?.destination} by WanderGenie! 🌍✈️`
+    if (navigator.share) {
+      await navigator.share({ title: `WanderGenie — ${formData?.destination}`, text })
+    } else {
+      await navigator.clipboard.writeText(text)
+      alert('Trip summary copied to clipboard!')
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#fafaf8]">
-      {/* Results hero header */}
+      {/* Hero header */}
       <div className="bg-[#1a2e1a] pt-16 pb-10">
         <Navbar transparent={true} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-          {/* Back + actions */}
           <div className="flex items-center justify-between mb-6">
             <button
               onClick={() => router.push('/')}
@@ -118,18 +122,17 @@ export default function ResultsPage() {
               Plan another trip
             </button>
             <div className="flex items-center gap-2">
-              <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-white/50 hover:text-white/80 border border-white/10 hover:bg-white/8 transition-all font-body">
+              <button
+                onClick={handleShare}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-white/50 hover:text-white/80 border border-white/10 hover:bg-white/8 transition-all font-body"
+              >
                 <Share2 className="w-3.5 h-3.5" />
                 Share
               </button>
-              <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-white/50 hover:text-white/80 border border-white/10 hover:bg-white/8 transition-all font-body">
-                <Download className="w-3.5 h-3.5" />
-                Export
-              </button>
+              <ExportButton result={result} formData={formData} />
             </div>
           </div>
 
-          {/* Title */}
           <div>
             <span className="section-label text-[#a8d5b5] block mb-1">Your AI-generated trip</span>
             <h1 className="font-display text-5xl sm:text-7xl text-white tracking-wide">
@@ -137,6 +140,7 @@ export default function ResultsPage() {
             </h1>
             <p className="text-white/40 font-body text-sm mt-2">
               {formData?.duration}-day itinerary · AI-crafted just for you
+              {formData?.travelMonth ? ` · ${formData.travelMonth}` : ''}
             </p>
           </div>
         </div>
@@ -144,14 +148,11 @@ export default function ResultsPage() {
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Trip meta bar */}
         <TripMetaBar formData={formData} result={result} />
 
-        {/* Grid: main + sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left: tabs + content */}
           <div className="lg:col-span-2">
-            {/* Tabs */}
             <div className="flex gap-1 p-1 bg-white border border-gray-100 rounded-xl mb-6 w-fit shadow-sm">
               {TABS.map(({ id, label, icon: Icon }) => (
                 <button
@@ -186,7 +187,6 @@ export default function ResultsPage() {
 
           {/* Right: sidebar */}
           <div className="space-y-5">
-            {/* Weather */}
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <Umbrella className="w-4 h-4 text-[#4a7c59]" strokeWidth={1.8} />
@@ -195,40 +195,36 @@ export default function ResultsPage() {
               <WeatherCard weather={weather} />
             </div>
 
-            {/* Trip summary card */}
             <div className="card p-5">
               <span className="section-label block mb-4">Trip Summary</span>
               <div className="space-y-3">
                 {[
-                  { label: 'Total days', value: `${formData?.duration} days` },
-                  { label: 'Itinerary days', value: `${itinerary?.length || 0} planned` },
-                  { label: 'Packing items', value: `${Object.values(packing_list || {}).flat().length} items` },
-                  { label: 'Est. budget', value: `₹${Number(formData?.budget).toLocaleString('en-IN')}` },
+                  { label: 'Total days',      value: `${formData?.duration} days`                              },
+                  { label: 'Itinerary days',  value: `${itinerary?.length || 0} planned`                      },
+                  { label: 'Packing items',   value: `${Object.values(packing_list || {}).flat().length} items`},
+                  { label: 'Est. budget',     value: `₹${Number(formData?.budget).toLocaleString('en-IN')}`   },
+                  ...(formData?.travelMonth  ? [{ label: 'Travel month',  value: formData.travelMonth  }] : []),
+                  ...(formData?.travelStyle  ? [{ label: 'Travel style',  value: formData.travelStyle  }] : []),
                 ].map(({ label, value }) => (
                   <div key={label} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                     <span className="text-xs text-gray-400 font-body">{label}</span>
-                    <span className="text-xs font-mono text-[#1a2e1a] font-medium">{value}</span>
+                    <span className="text-xs font-mono text-[#1a2e1a] font-medium capitalize">{value}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Interests */}
             <div className="card p-5">
               <span className="section-label block mb-3">Your Interests</span>
               <div className="flex flex-wrap gap-2">
                 {formData?.interests?.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs px-3 py-1.5 rounded-full bg-[#f0f7f2] border border-[#4a7c59]/20 text-[#4a7c59] font-mono capitalize"
-                  >
+                  <span key={tag} className="text-xs px-3 py-1.5 rounded-full bg-[#f0f7f2] border border-[#4a7c59]/20 text-[#4a7c59] font-mono capitalize">
                     {tag}
                   </span>
                 ))}
               </div>
             </div>
 
-            {/* Replan CTA */}
             <button
               onClick={() => router.push('/')}
               className="w-full py-3.5 rounded-xl border border-gray-200 text-sm text-gray-500 hover:text-[#1a2e1a] hover:border-[#1a2e1a] hover:bg-[#f4f1ec] transition-all font-body flex items-center justify-center gap-2"
