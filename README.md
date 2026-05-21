@@ -2,7 +2,9 @@
 
 An intelligent full-stack travel planning application that generates personalized trip itineraries, weather-aware packing suggestions, and smart travel recommendations using AI.
 
-## ✨ Features
+---
+
+# ✨ Features
 
 - 🤖 AI-generated travel itineraries
 - 🧳 Smart packing list generation
@@ -12,7 +14,10 @@ An intelligent full-stack travel planning application that generates personalize
 - 🎯 Interest-based recommendations
 - 🌙 Modern responsive UI
 - ⚡ Fast full-stack architecture
-- 🔐 Authentication-ready backend structure
+- 🔐 User Authentication System
+- 📄 Export itinerary as PDF
+- ❤️ Save & manage trips
+- 🧠 AI-powered smart recommendations
 
 ---
 
@@ -35,7 +40,7 @@ An intelligent full-stack travel planning application that generates personalize
 ## AI & Services
 - Groq API
 - AI itinerary generation
-- Fallback intelligent mock system
+- Intelligent fallback mock system
 
 ---
 
@@ -46,6 +51,7 @@ wandergenie/
 ├── frontend/
 │   ├── app/
 │   ├── components/
+│   ├── context/
 │   ├── lib/
 │   └── styles/
 │
@@ -55,7 +61,8 @@ wandergenie/
 │   ├── services/
 │   ├── middleware/
 │   ├── models/
-│   └── validators/
+│   ├── validators/
+│   └── utils/
 ```
 
 ---
@@ -68,6 +75,8 @@ wandergenie/
 git clone https://github.com/nainashrm/WanderGenie.git
 ```
 
+---
+
 ## Frontend Setup
 
 ```bash
@@ -75,6 +84,8 @@ cd frontend
 npm install
 npm run dev
 ```
+
+---
 
 ## Backend Setup
 
@@ -115,19 +126,23 @@ GROQ_API_KEY=your_groq_key
 - Weather-aware suggestions
 - Multi-day trip planning
 - AI-enhanced recommendations
+- Secure authentication system
+- Export itinerary as downloadable PDF
+- Saved trip management
 
 ---
 
 # 📸 Screenshots
 
-## Home Page
+## 🏠 Home Page
+
 <img width="950" height="439" alt="image" src="https://github.com/user-attachments/assets/c0df5ce5-8522-4ad0-9cab-a2224dd70e8e" />
 
+---
 
+## 📋 Itinerary Results
 
-## Itinerary Results
 <img width="946" height="442" alt="image" src="https://github.com/user-attachments/assets/29073720-2679-41ce-9c9f-eccddc1b5fc7" />
-
 
 ---
 
@@ -150,6 +165,8 @@ Naina Sharma
 - Google Maps integration
 - Hotel recommendations
 - Flight integration
-- PDF itinerary export
-- Save trips feature
-- User authentication dashboard
+- AI chatbot travel assistant
+- Real-time weather APIs
+- Social trip sharing
+- Payment integration
+- Admin dashboard
