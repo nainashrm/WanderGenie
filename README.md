@@ -6,18 +6,19 @@ An intelligent full-stack travel planning application that generates personalize
 
 # ✨ Features
 
-- 🤖 AI-generated travel itineraries
-- 🧳 Smart packing list generation
-- 🌤️ Weather forecast integration
-- 💰 Budget-based trip planning
-- 📅 Day-wise itinerary scheduling
-- 🎯 Interest-based recommendations
-- 🌙 Modern responsive UI
-- ⚡ Fast full-stack architecture
-- 🔐 User Authentication System
-- 📄 Export itinerary as PDF
-- ❤️ Save & manage trips
-- 🧠 AI-powered smart recommendations
+* AI-generated travel itineraries
+* Smart packing list generation
+* Weather forecast integration
+* Budget-based trip planning
+* Day-wise itinerary scheduling
+* Interest-based recommendations
+* Modern responsive UI
+* Fast full-stack architecture
+* User authentication system
+* Export itinerary as PDF
+* Save and manage trips
+* AI-powered smart recommendations
+
 
 ---
 
